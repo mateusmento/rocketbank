@@ -1,39 +1,43 @@
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateClientDto } from "./dto/create-client.dto";
 import { UpdateClientDto } from "./dto/update-client.dto";
-
-let sequenceId = 1;
-let clients = [
-	{ id: sequenceId++, name: "Mateus", cpf: "145.881.667.27", birthDate: new Date("1994-09-15") },
-	{ id: sequenceId++, name: "Mateus", cpf: "145.881.667.27", birthDate: new Date("1994-09-15") },
-];
+import { Client } from "./entities/client.entity";
 
 @Injectable()
 export class ClientService {
+	constructor(
+		@InjectRepository(Client)
+		private readonly repo: Repository<Client>,
+	) {}
+
 	create(createClientDto: CreateClientDto) {
-		const client = { id: sequenceId++, ...createClientDto };
-		clients.push(client);
-		return client;
+		return this.repo.insert(createClientDto);
 	}
 
-	findAll() {
-		return clients;
+	findAll(page, size) {
+		return this.repo
+			.createQueryBuilder()
+			.skip(page * size)
+			.limit(size)
+			.getMany();
 	}
 
-	findOne(id: number) {
-		const client = clients.find(c => c.id === id);
+	async findOne(id: number) {
+		const client = await this.repo.findOne(id);
 		if (!client) throw new NotFoundException();
 		return client;
 	}
 
-	update(id: number, updateClientDto: UpdateClientDto) {
-		const client = clients.find(c => c.id === id);
-		if (!client) throw new NotFoundException();
-		for (const key in updateClientDto) client[key] = updateClientDto[key];
-		return client;
+	async update(id: number, updateClientDto: UpdateClientDto) {
+		const { affected } = await this.repo.update(id, updateClientDto);
+		if (!affected) throw new NotFoundException();
+		return this.repo.findOne(id);
 	}
 
-	remove(id: number) {
-		clients = clients.filter(c => c.id !== id);
+	async remove(id: number) {
+		const { affected } = await this.repo.delete(id);
+		if (!affected) throw new NotFoundException();
 	}
 }
