@@ -16,4 +16,8 @@ export class UserService {
 		users.push(user);
 		return user;
 	}
+
+	findByEmail(email: string) {
+		return users.find(u => u.email === email);
+	}
 }
