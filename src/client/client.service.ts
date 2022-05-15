@@ -1,26 +1,36 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateClientDto } from "./dto/create-client.dto";
 import { UpdateClientDto } from "./dto/update-client.dto";
+
+let sequenceId = 1;
+let clients = [];
 
 @Injectable()
 export class ClientService {
 	create(createClientDto: CreateClientDto) {
-		return "This action adds a new client";
+		const client = { id: sequenceId++, ...createClientDto };
+		clients.push(client);
+		return client;
 	}
 
 	findAll() {
-		return `This action returns all client`;
+		return clients;
 	}
 
 	findOne(id: number) {
-		return `This action returns a #${id} client`;
+		const client = clients.find(c => c.id === id);
+		if (!client) throw new NotFoundException();
+		return client;
 	}
 
 	update(id: number, updateClientDto: UpdateClientDto) {
-		return `This action updates a #${id} client`;
+		const client = clients.find(c => c.id === id);
+		if (!client) throw new NotFoundException();
+		for (const key in updateClientDto) client[key] = updateClientDto[key];
+		return client;
 	}
 
 	remove(id: number) {
-		return `This action removes a #${id} client`;
+		clients = clients.filter(c => c.id === id);
 	}
 }
