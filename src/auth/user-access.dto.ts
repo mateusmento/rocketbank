@@ -1,3 +1,3 @@
-interface UserAccessDto {
+export interface UserAccessDto {
 	accessToken: string;
 }
