@@ -3,7 +3,10 @@ import { CreateClientDto } from "./dto/create-client.dto";
 import { UpdateClientDto } from "./dto/update-client.dto";
 
 let sequenceId = 1;
-let clients = [];
+let clients = [
+	{ id: 1, name: "Mateus", cpf: "145.881.667.27", birthDate: new Date("1994-09-15") },
+	{ id: 1, name: "Mateus", cpf: "145.881.667.27", birthDate: new Date("1994-09-15") },
+];
 
 @Injectable()
 export class ClientService {
