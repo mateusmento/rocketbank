@@ -8,9 +8,9 @@ import { UserAccessDto } from "./user-access.dto";
 export class AuthService {
 	constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
 
-	validateCredentials(email: string, password: string) {
-		const user = this.userService.findByEmail(email);
-		if (user && user.verifyPassword(password)) return user;
+	async validateCredentials(email: string, password: string) {
+		const user = await this.userService.findByEmail(email);
+		if (user && (await user.verifyPassword(password))) return user;
 		throw new UnauthorizedException();
 	}
 
