@@ -1,23 +1,24 @@
 import { User } from "./entities/user.entity";
 import { Injectable } from "@nestjs/common";
 import { CreateUserDto } from "./dto/create-user.dto";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 import * as bcrypt from "bcrypt";
-
-let sequenceId = 1;
-const users: User[] = [];
 
 @Injectable()
 export class UserService {
+	constructor(
+		@InjectRepository(User)
+		private readonly repo: Repository<User>,
+	) {}
+
 	async create(createUserDto: CreateUserDto) {
-		const user = new User();
-		for (const key in createUserDto) user[key] = createUserDto[key];
-		user.id = sequenceId++;
-		user.password = await bcrypt.hash(createUserDto.password, 5);
-		users.push(user);
-		return user;
+		createUserDto.password = await bcrypt.hash(createUserDto.password, 5);
+		return this.repo.insert(createUserDto);
 	}
 
 	findByEmail(email: string) {
-		return users.find(u => u.email === email);
+		const query = this.repo.createQueryBuilder("user");
+		return query.where("user.email = :email", { email }).getOne();
 	}
 }
