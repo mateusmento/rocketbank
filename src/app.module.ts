@@ -14,6 +14,8 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 			username: "rocket_bank",
 			password: "kl1jh2h3k1",
 			database: "rocket_bank",
+			synchronize: true,
+			autoLoadEntities: true,
 		}),
 		ClientModule,
 		UserModule,
