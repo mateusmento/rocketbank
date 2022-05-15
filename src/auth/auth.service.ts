@@ -1,3 +1,4 @@
+import { User } from "./../user/entities/user.entity";
 import { UserService } from "./../user/user.service";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 
@@ -9,5 +10,9 @@ export class AuthService {
 		const user = this.userService.findByEmail(email);
 		if (user && user.verifyPassword(password)) return user;
 		throw new UnauthorizedException();
+	}
+
+	signIn(user: User): UserAccessDto {
+		return { accessToken: null };
 	}
 }
