@@ -16,7 +16,7 @@ export class ClientService {
 		return this.repo.insert(createClientDto);
 	}
 
-	findAll(page, size) {
+	findAll(page: number, size: number) {
 		return this.repo
 			.createQueryBuilder()
 			.skip(page * size)
