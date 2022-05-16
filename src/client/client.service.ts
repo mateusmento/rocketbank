@@ -31,9 +31,8 @@ export class ClientService {
 	}
 
 	async update(id: number, updateClientDto: UpdateClientDto) {
-		const { affected } = await this.repo.update(id, updateClientDto);
-		if (!affected) throw new NotFoundException();
-		return this.repo.findOne(id);
+		const client = await this.findOne(id);
+		return this.repo.save({ ...client, ...updateClientDto });
 	}
 
 	async remove(id: number) {
