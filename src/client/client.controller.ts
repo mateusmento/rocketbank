@@ -3,8 +3,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } f
 import { ClientService } from "./client.service";
 import { CreateClientDto } from "./dto/create-client.dto";
 import { UpdateClientDto } from "./dto/update-client.dto";
+import { ApiBearerAuth } from "@nestjs/swagger";
 
 @Controller("clients")
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 export class ClientController {
 	constructor(private readonly clientService: ClientService) {}
