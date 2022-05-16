@@ -12,8 +12,8 @@ export class ClientService {
 		private readonly repo: Repository<Client>,
 	) {}
 
-	create(createClientDto: CreateClientDto) {
-		return this.repo.insert(createClientDto);
+	async create(createClientDto: CreateClientDto) {
+		return this.repo.save(createClientDto.create());
 	}
 
 	findAll(page: number, size: number) {
