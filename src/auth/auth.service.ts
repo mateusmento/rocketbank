@@ -6,7 +6,10 @@ import { UserAccessDto } from "./user-access.dto";
 
 @Injectable()
 export class AuthService {
-	constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
+	constructor(
+		private readonly userService: UserService,
+		private readonly jwtService: JwtService,
+	) {}
 
 	async validateCredentials(email: string, password: string) {
 		const user = await this.userService.findByEmail(email);
@@ -15,6 +18,8 @@ export class AuthService {
 	}
 
 	signIn(user: User): UserAccessDto {
-		return { accessToken: this.jwtService.sign({ sub: user.id, email: user.email }) };
+		return {
+			accessToken: this.jwtService.sign({ sub: user.id, email: user.email }),
+		};
 	}
 }
