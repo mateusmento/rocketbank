@@ -19,7 +19,8 @@ export class ClientService {
 	findAll(page: number, size: number) {
 		return this.repo
 			.createQueryBuilder()
-			.skip(page * size)
+			.orderBy("id")
+			.offset((page - 1) * size)
 			.limit(size)
 			.getMany();
 	}
