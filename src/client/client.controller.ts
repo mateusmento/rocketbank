@@ -17,22 +17,22 @@ export class ClientController {
 	}
 
 	@Get()
-	findAll(@Query("page") page: string, @Query("size") size: string) {
-		return this.clientService.findAll(+page, +size);
+	findAll(@Query("page") page: number, @Query("size") size: number) {
+		return this.clientService.findAll(page, size);
 	}
 
 	@Get(":id")
-	findOne(@Param("id") id: string) {
-		return this.clientService.findOne(+id);
+	findOne(@Param("id") id: number) {
+		return this.clientService.findOne(id);
 	}
 
 	@Patch(":id")
-	update(@Param("id") id: string, @Body() updateClientDto: UpdateClientDto) {
-		return this.clientService.update(+id, updateClientDto);
+	update(@Param("id") id: number, @Body() updateClientDto: UpdateClientDto) {
+		return this.clientService.update(id, updateClientDto);
 	}
 
 	@Delete(":id")
-	remove(@Param("id") id: string) {
-		return this.clientService.remove(+id);
+	remove(@Param("id") id: number) {
+		return this.clientService.remove(id);
 	}
 }
