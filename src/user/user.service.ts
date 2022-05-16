@@ -18,7 +18,9 @@ export class UserService {
 	}
 
 	findByEmail(email: string) {
-		const query = this.repo.createQueryBuilder("user");
-		return query.where("user.email = :email", { email }).getOne();
+		return this.repo
+			.createQueryBuilder("user")
+			.where("user.email = :email", { email })
+			.getOne();
 	}
 }
