@@ -14,7 +14,7 @@ export class UserService {
 
 	async create(createUserDto: CreateUserDto) {
 		createUserDto.password = await bcrypt.hash(createUserDto.password, 5);
-		return this.repo.insert(createUserDto);
+		return this.repo.save(createUserDto);
 	}
 
 	findByEmail(email: string) {
