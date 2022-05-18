@@ -16,13 +16,15 @@ export class ClientService {
 		return this.repo.save(createClientDto.create());
 	}
 
-	findAll(page: number, size: number) {
-		return this.repo
+	async findAll(page: number, size: number) {
+		const [clients, count] = await this.repo
 			.createQueryBuilder()
-			.orderBy("id")
-			.offset((page - 1) * size)
+			.orderBy("id", "DESC")
+			.offset(page * size)
 			.limit(size)
-			.getMany();
+			.getManyAndCount();
+
+		return { content: clients, totalCount: count };
 	}
 
 	async findOne(id: number) {
