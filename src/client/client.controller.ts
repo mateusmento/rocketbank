@@ -1,4 +1,3 @@
-import { JwtAuthGuard } from "./../auth/guards/jwt.auth-guard";
 import {
 	Controller,
 	Get,
@@ -10,14 +9,15 @@ import {
 	Query,
 	UseGuards,
 } from "@nestjs/common";
+import { ApiBearerAuth } from "@nestjs/swagger";
+import { JwtAuthenticated } from "../auth/jwt-authentication";
 import { ClientService } from "./client.service";
 import { CreateClientDto } from "./dto/create-client.dto";
 import { UpdateClientDto } from "./dto/update-client.dto";
-import { ApiBearerAuth } from "@nestjs/swagger";
 
 @Controller("clients")
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthenticated)
 export class ClientController {
 	constructor(private readonly clientService: ClientService) {}
 
