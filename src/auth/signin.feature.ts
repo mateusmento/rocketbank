@@ -2,8 +2,8 @@ import { Controller, Post, UseGuards } from "@nestjs/common";
 import { ApiBody, ApiProperty } from "@nestjs/swagger";
 import { BasicAuthenticated } from "./basic-authentication";
 import { UserAccess, UserAccessFactory } from "./user-access";
-import { User } from "../../user";
-import { AuthUser } from "../contracts/auth-user.decorator";
+import { User } from "../user";
+import { AuthUser } from "./contracts/auth-user.decorator";
 
 @Controller("auth")
 export class SignIn {

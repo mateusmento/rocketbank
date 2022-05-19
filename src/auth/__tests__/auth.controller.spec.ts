@@ -1,4 +1,4 @@
-import { SignIn } from "./../signin";
+import { SignIn } from "../signin.feature";
 import { Test, TestingModule } from "@nestjs/testing";
 
 describe("AuthController", () => {
