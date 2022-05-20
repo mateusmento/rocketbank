@@ -2,12 +2,9 @@ import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
 import { UserModule } from "../user";
-import {
-	BasicAuthentication,
-	CredentialsService,
-} from "./basic-authentication";
-import { JwtAuthentication } from "./jwt-authentication";
-import { SignIn } from "./signin.feature";
+import { BasicAuthenticated, JwtAuthenticated } from "./contracts/auth-guards";
+import { Authentication } from "./domain/authentication";
+import { SignIn } from "./features/signin";
 
 @Module({
 	imports: [
@@ -19,6 +16,6 @@ import { SignIn } from "./signin.feature";
 		}),
 	],
 	controllers: [SignIn],
-	providers: [CredentialsService, BasicAuthentication, JwtAuthentication],
+	providers: [Authentication, BasicAuthenticated, JwtAuthenticated],
 })
 export class AuthModule {}
