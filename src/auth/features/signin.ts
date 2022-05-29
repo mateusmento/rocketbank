@@ -1,9 +1,10 @@
-import { Controller, Post, UseGuards } from "@nestjs/common";
+import { Controller, Post, Res, UseGuards } from "@nestjs/common";
 import { ApiBody, ApiProperty } from "@nestjs/swagger";
 import { UserAccess, UserAccessFactory } from "../domain/user-access";
 import { User } from "../../user";
 import { AuthUser } from "../contracts/auth-user.decorator";
 import { BasicAuthenticated } from "../contracts/auth-guards";
+import { Response } from "express";
 
 class Credentials {
 	@ApiProperty()
@@ -20,7 +21,13 @@ export class SignIn {
 	@Post("signin")
 	@ApiBody({ type: Credentials })
 	@UseGuards(BasicAuthenticated)
-	signIn(@AuthUser() user: User): UserAccess {
-		return this.userAccessFactory.generate(user);
+	signIn(@AuthUser() user: User, @Res() res: Response): UserAccess {
+		const userAccess = this.userAccessFactory.generate(user);
+		res.cookie("token", userAccess.accessToken, {
+			httpOnly: true,
+			domain: "localhost:3000",
+			maxAge: 1800,
+		});
+		return userAccess;
 	}
 }
