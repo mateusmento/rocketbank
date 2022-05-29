@@ -1,6 +1,25 @@
 version: '3.8'
 
 services:
+  api:
+    container_name: rocket-bank-api
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: npm run start
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+      - 9229:9229
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - rocket-bank-network
+    depends_on:
+      - database
+    env_file:
+      - .env
+
   database:
     container_name: rocket-bank
     image: postgres:14
