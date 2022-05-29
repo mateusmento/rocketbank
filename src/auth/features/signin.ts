@@ -25,7 +25,7 @@ export class SignIn {
 		const userAccess = this.userAccessFactory.generate(user);
 		res.cookie("token", userAccess.accessToken, {
 			httpOnly: true,
-			domain: "localhost:3000",
+			domain: "localhost:8000",
 			maxAge: 1800,
 		});
 		return userAccess;
