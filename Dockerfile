@@ -1,28 +1,28 @@
-FROM node:16.15-alpine3.14 as development
+FROM node:18-alpine AS dev
 
-WORKDIR /usr/src/app
+WORKDIR /home/weektasks-api
+COPY --chown=node:node package*.json ./
+RUN npm ci
+COPY --chown=node:node . .
+USER node
 
-COPY package*.json ./
+FROM node:18-alpine AS build
 
-RUN npm install --only=development
-
-COPY . .
-
+WORKDIR /home/weektasks-api
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node --from=dev /home/weektasks-api/node_modules ./node_modules
+COPY --chown=node:node . .
 RUN npm run build
+ENV NODE_ENV production
+RUN npm ci --omit=dev && npm cache clean --force
+USER node
 
-FROM node:16.15-alpine3.14 as production
+FROM node:18-alpine AS prod
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+WORKDIR /home/weektasks-api
 
-WORKDIR /usr/src/app
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node --from=build /home/weektasks-api/node_modules ./node_modules
+COPY --chown=node:node --from=build /home/weektasks-api/dist ./dist
 
-COPY package*.json ./
-
-RUN npm install --only=production
-
-COPY . .
-
-COPY --from=development /usr/src/app/dist ./dist
-
-CMD ["node", "dist/main"]
+CMD ["node", "dist/main.js"]
