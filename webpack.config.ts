@@ -21,6 +21,7 @@ export default {
     plugins: [
         new HtmlWebpackPlugin({
             template: "./src/index.html",
-        })
+            favicon: false,
+        }),
     ]
 } as Configuration;
