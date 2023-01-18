@@ -43,14 +43,14 @@ export function Root() {
 	}, [navigate]);
 
 	let verifyAccessToken = useCallback((token) => {
-		if (!token) navigate("/signin");
+		if (!token) return navigate("/signin");
 		let signoutTimeout = token.exp * 1000 - new Date().getTime();
 		setTimeout(signout, signoutTimeout);
 	}, [navigate, signout]);
 
 	useEffect(() => {
 		let token = localStorage.getItem("accessToken");
-		let user = jwtDecode(token);
+		let user = token ? jwtDecode(token) : null;
 		setUser(user);
 		verifyAccessToken(token && user)
 	}, [location, navigate, verifyAccessToken]);
