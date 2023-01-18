@@ -10,6 +10,9 @@ export default {
         filename: "index.js",
         path: path.resolve(__dirname, "dist"),
     },
+    resolve: {
+        extensions: [".js", ".jsx"],
+    },
     devServer: {
         historyApiFallback: {
             index: "/index.html"
@@ -23,5 +26,14 @@ export default {
             template: "./src/index.html",
             favicon: false,
         }),
-    ]
+    ],
+    module: {
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: "babel-loader"
+            }
+        ]
+    }
 } as Configuration;
