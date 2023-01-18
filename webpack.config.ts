@@ -5,7 +5,7 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 
 export default {
     mode: "development",
-    entry: "./src/index.js",
+    entry: "./src/index.jsx",
     output: {
         filename: "index.js",
         path: path.resolve(__dirname, "dist"),
