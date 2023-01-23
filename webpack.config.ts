@@ -20,6 +20,7 @@ export default {
         port: "auto",
         hot: true,
         open: true,
+        static: "./src/assets"
     },
     plugins: [
         new HtmlWebpackPlugin({
