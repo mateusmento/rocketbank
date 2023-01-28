@@ -8,11 +8,11 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 	imports: [
 		TypeOrmModule.forRoot({
 			type: "postgres",
-			host: "localhost",
+			host: "rocketbank-db",
 			port: 5432,
-			username: "rocket_bank",
+			username: "rocketbank",
 			password: "kl1jh2h3k1",
-			database: "rocket_bank",
+			database: "rocketbank",
 			synchronize: true,
 			autoLoadEntities: true,
 			logger: "advanced-console",
