@@ -2,36 +2,40 @@ version: '3.8'
 
 services:
   api:
-    container_name: rocket-bank-api
-    build: .
+    container_name: rocketbank-api
+    image: rocketbank-api:dev
+    build:
+      context: .
+      target: dev
+    command: npm run start:dev
     ports:
       - 3000:3000
-    # volumes:
-    #   - .:/usr/src/app
-    #   - /usr/src/app/node_modules
+    volumes:
+      - .:/usr/app
     networks:
-      - rocket-bank-network
+      - rocketbank-network
     depends_on:
       - database
     env_file:
       - .env
 
   database:
-    container_name: rocket-bank
+    container_name: rocketbank-db
     image: postgres:14
     restart: always
     ports:
       - 5432:5432
     networks:
-      - rocket-bank-network
+      - rocketbank-network
     volumes:
       - pgdata:/var/lib/postgresql/data
     env_file:
       - .env
 
 networks:
-  rocket-bank-network:
-
+  rocketbank-network:
+    name: rocketbank-network
 
 volumes:
   pgdata:
+    name: pgdata
