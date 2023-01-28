@@ -23,11 +23,8 @@ export class SignIn {
 	@UseGuards(BasicAuthenticated)
 	signIn(@AuthUser() user: User, @Res() res: Response): UserAccess {
 		const userAccess = this.userAccessFactory.generate(user);
-		res.cookie("token", userAccess.accessToken, {
-			httpOnly: true,
-			domain: "localhost:8000",
-			maxAge: 1800,
-		});
+		res.cookie("token", userAccess.accessToken, { maxAge: 1800 });
+		res.json(userAccess);
 		return userAccess;
 	}
 }
