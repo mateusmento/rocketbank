@@ -4,7 +4,6 @@ import "webpack-dev-server";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
 export default {
-    mode: "development",
     entry: "./src/index.jsx",
     output: {
         filename: "index.js",
