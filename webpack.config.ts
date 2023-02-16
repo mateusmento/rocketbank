@@ -16,6 +16,7 @@ export default {
         historyApiFallback: {
             index: "/index.html"
         },
+        host: "app.rocketbank.com",
         port: "auto",
         hot: true,
         open: true,
