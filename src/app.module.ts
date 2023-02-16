@@ -3,7 +3,7 @@ import { ClientModule } from "./client/client.module";
 import { UserModule } from "./user/user.module";
 import { AuthModule } from "./auth/auth.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { ConfigModule } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { AppConfig } from "./app.config";
 
 @Module({
@@ -12,17 +12,20 @@ import { AppConfig } from "./app.config";
 			isGlobal: true,
 			validate: AppConfig.validate,
 		}),
-		TypeOrmModule.forRoot({
-			type: "postgres",
-			host: "rocketbank-db",
-			port: 5432,
-			username: "rocketbank",
-			password: "kl1jh2h3k1",
-			database: "rocketbank",
-			synchronize: true,
-			autoLoadEntities: true,
-			logger: "advanced-console",
-			logging: true,
+		TypeOrmModule.forRootAsync({
+			inject: [ConfigService],
+			useFactory: (configService: ConfigService) => ({
+				type: "postgres",
+				host: configService.get("DATABASE_HOST"),
+				port: configService.get("DATABASE_PORT"),
+				username: configService.get("POSTGRES_USER"),
+				password: configService.get("POSTGRES_PASSWORD"),
+				database: configService.get("POSTGRES_DB"),
+				synchronize: true,
+				autoLoadEntities: true,
+				logger: "advanced-console",
+				logging: true,
+			}),
 		}),
 		ClientModule,
 		UserModule,
