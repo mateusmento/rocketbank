@@ -21,7 +21,10 @@ export class SignIn {
 	@Post("signin")
 	@ApiBody({ type: Credentials })
 	@UseGuards(BasicAuthenticated)
-	signIn(@AuthUser() user: User, @Res() res: Response): UserAccess {
+	signIn(
+		@AuthUser() user: User,
+		@Res({ passthrough: true }) res: Response,
+	): UserAccess {
 		const userAccess = this.userAccessFactory.generate(user);
 		res.cookie("token", userAccess.accessToken, { maxAge: 1800 });
 		res.json(userAccess);
