@@ -3,9 +3,15 @@ import { ClientModule } from "./client/client.module";
 import { UserModule } from "./user/user.module";
 import { AuthModule } from "./auth/auth.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { ConfigModule } from "@nestjs/config";
+import { AppConfig } from "./app.config";
 
 @Module({
 	imports: [
+		ConfigModule.forRoot({
+			isGlobal: true,
+			validate: AppConfig.validate,
+		}),
 		TypeOrmModule.forRoot({
 			type: "postgres",
 			host: "rocketbank-db",
