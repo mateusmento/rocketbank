@@ -5,6 +5,7 @@ import { User } from "../../user";
 import { AuthUser } from "../contracts/auth-user.decorator";
 import { BasicAuthenticated } from "../contracts/auth-guards";
 import { Response } from "express";
+import { ConfigService } from "@nestjs/config";
 
 class Credentials {
 	@ApiProperty()
@@ -16,7 +17,10 @@ class Credentials {
 
 @Controller("auth")
 export class SignIn {
-	constructor(private readonly userAccessFactory: UserAccessFactory) {}
+	constructor(
+		private readonly userAccessFactory: UserAccessFactory,
+		private readonly configService: ConfigService,
+	) {}
 
 	@Post("signin")
 	@ApiBody({ type: Credentials })
@@ -26,7 +30,10 @@ export class SignIn {
 		@Res({ passthrough: true }) res: Response,
 	): UserAccess {
 		const userAccess = this.userAccessFactory.generate(user);
-		res.cookie("token", userAccess.accessToken, { maxAge: 1800 });
+		res.cookie("token", userAccess.accessToken, {
+			maxAge: this.configService.get("JWT_COOKIE_MAX_AGE"),
+			httpOnly: true,
+		});
 		return userAccess;
 	}
 }
