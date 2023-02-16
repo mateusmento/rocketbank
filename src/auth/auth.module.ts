@@ -18,7 +18,7 @@ import { LocalStrategy } from "./passport/local.strategy";
 			useFactory: (configService: ConfigService) => ({
 				secret: configService.get("JWT_SECRET"),
 				signOptions: {
-					expiresIn: configService.get("JWT_EXPIRES_IN"),
+					expiresIn: configService.get("JWT_EXPIRES_IN") * 1000,
 				},
 			}),
 		}),
