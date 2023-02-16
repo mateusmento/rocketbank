@@ -22,6 +22,7 @@ async function bootstrap() {
 		.setVersion("1.0")
 		.addTag("rocket-bank")
 		.addBearerAuth()
+		.addCookieAuth()
 		.build();
 
 	const document = SwaggerModule.createDocument(app, config);
