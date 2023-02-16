@@ -27,7 +27,6 @@ export class SignIn {
 	): UserAccess {
 		const userAccess = this.userAccessFactory.generate(user);
 		res.cookie("token", userAccess.accessToken, { maxAge: 1800 });
-		res.json(userAccess);
 		return userAccess;
 	}
 }
