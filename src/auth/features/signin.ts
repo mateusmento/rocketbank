@@ -31,7 +31,7 @@ export class SignIn {
 	): UserAccess {
 		const userAccess = this.userAccessFactory.generate(user);
 		res.cookie("token", userAccess.accessToken, {
-			maxAge: this.configService.get("JWT_COOKIE_MAX_AGE"),
+			maxAge: this.configService.get("JWT_COOKIE_MAX_AGE") * 1000,
 			httpOnly: true,
 		});
 		return userAccess;
