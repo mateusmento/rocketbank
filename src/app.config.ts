@@ -1,7 +1,10 @@
 import { plainToInstance } from "class-transformer";
-import { IsNumber, IsString, validateSync } from "class-validator";
+import { IsNumber, IsString, IsUrl, validateSync } from "class-validator";
 
 export class AppConfig {
+	@IsUrl()
+	APP_URL: string;
+
 	@IsString()
 	DATABASE_HOST: string;
 
