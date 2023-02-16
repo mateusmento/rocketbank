@@ -2,8 +2,14 @@ import { plainToInstance } from "class-transformer";
 import { IsNumber, IsString, IsUrl, validateSync } from "class-validator";
 
 export class AppConfig {
+	@IsString()
+	APP_HOSTNAME: string;
+
+	@IsNumber()
+	APP_PORT: number;
+
 	@IsUrl()
-	APP_URL: string;
+	CORS_ORIGIN: string;
 
 	@IsString()
 	DATABASE_HOST: string;
