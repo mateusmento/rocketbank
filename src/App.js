@@ -50,6 +50,7 @@ export function Root() {
 			setUser(user);
 		} catch(ex) {
 			signout();
+			throw ex;
 		}
 	}, [navigate, signout]);
 
