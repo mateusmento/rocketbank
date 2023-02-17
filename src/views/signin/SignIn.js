@@ -76,12 +76,9 @@ function a11yProps(index) {
 function SignInForm({email: receivedEmail}) {
 	let navigate = useNavigate();
 
-	let signin = useCallback((credentials) => {
-		http().post("/auth/signin", credentials)
-			.then(({data}) => {
-				localStorage.setItem("accessToken", data.accessToken)
-				navigate("/");
-			});
+	let signin = useCallback(async (credentials) => {
+		await http().post("/auth/signin", credentials);
+		navigate("/");
 	}, [navigate]);
 
 	let formik = useFormik({
