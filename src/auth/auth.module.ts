@@ -6,6 +6,7 @@ import { UserModule } from "../user";
 import { Authentication } from "./domain/authentication";
 import { UserAccessFactory } from "./domain/user-access";
 import { SignIn } from "./features/signin";
+import { SignOut } from "./features/signout";
 import { JwtStrategy } from "./passport/jwt.strategy";
 import { LocalStrategy } from "./passport/local.strategy";
 
@@ -23,7 +24,7 @@ import { LocalStrategy } from "./passport/local.strategy";
 			}),
 		}),
 	],
-	controllers: [SignIn],
+	controllers: [SignIn, SignOut],
 	providers: [Authentication, LocalStrategy, JwtStrategy, UserAccessFactory],
 })
 export class AuthModule {}
