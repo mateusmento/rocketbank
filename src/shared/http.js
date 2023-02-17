@@ -5,5 +5,9 @@ export function http() {
 	let headers = {};
 	let token = localStorage.getItem("accessToken");
 	if (token) headers.Authorization = `Bearer ${token}`;
-	return axios.create({ baseURL: BASE_API_URL, headers });
+	return axios.create({
+		baseURL: BASE_API_URL,
+		headers,
+		withCredentials: true
+	});
 }
