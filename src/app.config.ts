@@ -30,9 +30,6 @@ export class AppConfig {
 	PASSWORD_SALT_ROUNDS: number;
 
 	@IsNumber()
-	JWT_COOKIE_MAX_AGE: number;
-
-	@IsNumber()
 	JWT_EXPIRES_IN: number;
 
 	static validate(config: Record<string, any>): Record<string, any> {
