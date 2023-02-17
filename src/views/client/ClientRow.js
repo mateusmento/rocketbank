@@ -47,6 +47,7 @@ export function ClientRow({client: originalClient, onRemove, onUpdate}) {
 		<TableRow>
 			<EditableContext.Provider value={isEditing}>
 				<TableCell>
+					<form id={`client-${originalClient.id}`} onSubmit={formik.handleSubmit}></form>
 					<Editable value={formik.values.name} name="name" onChange={formik.handleChange}/>
 					{isEditing && formik.errors.name && formik.touched.name
 						&& <small className="d-block">{formik.errors.name}</small>}
@@ -70,8 +71,8 @@ export function ClientRow({client: originalClient, onRemove, onUpdate}) {
 						</Fragment>
 					:
 						<Fragment>
-							<Button type="submit" onClick={formik.handleSubmit}><Check/></Button>
 							<Button type="button" onClick={cancelEditing}><Cancel/></Button>
+							<Button form={`client-${originalClient.id}`} type="submit"><Check/></Button>
 						</Fragment>
 				}
 			</TableCell>
