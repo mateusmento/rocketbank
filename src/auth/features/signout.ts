@@ -3,7 +3,7 @@ import { JwtAuthenticated } from "../contracts/auth-guards";
 import { Response } from "express";
 
 @Controller("auth")
-export class SignIn {
+export class SignOut {
 	@Delete("signin")
 	@UseGuards(JwtAuthenticated)
 	signIn(@Res({ passthrough: true }) res: Response) {
