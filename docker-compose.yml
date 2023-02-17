@@ -12,6 +12,7 @@ services:
       - 3000:3000
     volumes:
       - .:/usr/app
+      - /etc/localtime:/etc/localtime
     networks:
       - rocketbank-network
     depends_on:
