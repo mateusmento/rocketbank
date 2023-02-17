@@ -5,9 +5,9 @@ import { SignUp } from './views/signup/SignUp';
 import { createContext, useCallback, useEffect, useState } from 'react';
 import { Link as RouterLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Home } from './views/home/Home';
-import jwtDecode  from 'jwt-decode';
 import { AppBar, Box, Button, Link, ListItem, Menu, MenuItem, Toolbar } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
+import { http } from './shared/http';
 
 export function App() {
 
@@ -37,28 +37,30 @@ export function Root() {
 	let navigate = useNavigate();
 	let [user, setUser] = useState({});
 
-	let signout = useCallback((e) => {
-		localStorage.removeItem("accessToken");
-		navigate("/signin")
+	let signout = useCallback(async (e) => {
+		http().delete("/auth/signin");
+		navigate("/signin");
 	}, [navigate]);
 
-	let verifyAccessToken = useCallback((token) => {
-		if (!token) return navigate("/signin");
-		let signoutTimeout = token.exp * 1000 - new Date().getTime();
-		setTimeout(signout, signoutTimeout);
+	let authenticateAccess = useCallback(async () => {
+		try {
+			const { data: user } = await http().get("/auth/user");
+			const timeout = user.expiresAt * 1000 - new Date().getTime();
+			setTimeout(signout, timeout);
+			setUser(user);
+		} catch(ex) {
+			signout();
+		}
 	}, [navigate, signout]);
 
 	useEffect(() => {
-		let token = localStorage.getItem("accessToken");
-		let user = token ? jwtDecode(token) : null;
-		setUser(user);
-		verifyAccessToken(token && user)
-	}, [location, navigate, verifyAccessToken]);
+		authenticateAccess();
+	}, [location, authenticateAccess]);
 
 	const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => setAnchorEl(event.currentTarget);
-  const handleClose = () => setAnchorEl(null);
+	const open = Boolean(anchorEl);
+	const handleClick = (event) => setAnchorEl(event.currentTarget);
+	const handleClose = () => setAnchorEl(null);
 
 	return (
 		<div>
