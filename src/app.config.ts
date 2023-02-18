@@ -2,9 +2,6 @@ import { plainToInstance } from "class-transformer";
 import { IsNumber, IsString, validateSync } from "class-validator";
 
 export class AppConfig {
-	@IsString()
-	APP_HOSTNAME: string;
-
 	@IsNumber()
 	APP_PORT: number;
 
