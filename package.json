@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "webpack serve --mode=development"
+    "serve": "webpack serve --mode=development",
+    "https-ca": "mkcert create-ca --key ./https/ca.key.pem --cert ./https/ca.pem",
+    "https-cert": "mkcert create-cert --ca-key ./https/ca.key.pem --ca-cert ./https/ca.pem --key ./https/app.key.pem --cert ./https/app.pem --domains app.rocketbank.com"
   },
   "keywords": [],
   "author": "",
