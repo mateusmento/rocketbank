@@ -11,15 +11,14 @@ export class UserService {
 	constructor(
 		@InjectRepository(User)
 		private readonly repo: Repository<User>,
+		@InjectRepository(UserCredential)
+		private readonly credentialRepo: Repository<UserCredential>,
 	) {}
 
 	async create(createUserDto: CreateUserDto) {
 		const password = await bcrypt.hash(createUserDto.password, 5);
-		const user = User.of({
-			...createUserDto,
-			credential: UserCredential.of({ password }),
-		});
-		return this.repo.save(user);
+		const credential = await this.credentialRepo.save({ password });
+		return this.repo.save({ ...createUserDto, credential });
 	}
 
 	findByEmail(email: string) {
