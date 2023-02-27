@@ -16,7 +16,7 @@ export class User {
 	@Column()
 	password: string;
 
-	@ManyToOne(() => UserCredential)
+	@ManyToOne(() => UserCredential, { cascade: ["insert"] })
 	credential: UserCredential;
 
 	async verifyPassword(password: string) {

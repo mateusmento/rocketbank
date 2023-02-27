@@ -7,4 +7,11 @@ export class UserCredential {
 
 	@Column()
 	password: string;
+
+	static of(partial: Partial<UserCredential>) {
+		const credential = new UserCredential();
+		credential.id = partial.id;
+		credential.password = partial.password;
+		return credential;
+	}
 }
