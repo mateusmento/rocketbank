@@ -20,7 +20,7 @@ export class User {
 	credential: UserCredential;
 
 	async verifyPassword(password: string) {
-		return await bcrypt.compare(password, this.password);
+		return await bcrypt.compare(password, this.credential.password);
 	}
 
 	static of(partial: Partial<User>) {
