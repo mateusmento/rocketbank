@@ -28,14 +28,29 @@ services:
       - 5432:5432
     networks:
       - rocketbank-network
+      - pgadmin-network
     volumes:
       - pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env
+
+  pgadmin:
+    container_name: rocketbank-pgadmin
+    image: dpage/pgadmin4
+    ports:
+      - 3300:80
+    depends_on:
+      - database
+    networks:
+      - pgadmin-network
     env_file:
       - .env
 
 networks:
   rocketbank-network:
     name: rocketbank-network
+  pgadmin-network:
+    name: pgadmin-network
 
 volumes:
   pgdata:
