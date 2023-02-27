@@ -17,10 +17,11 @@ export class ClientService {
 		return this.repo.save(createClientDto.create(user));
 	}
 
-	async findAll(page: number, size: number) {
+	async findAll(user: User, page: number, size: number) {
 		const [clients, count] = await this.repo
-			.createQueryBuilder()
-			.orderBy("id", "DESC")
+			.createQueryBuilder("c")
+			.where("c.createdBy = :user", { user: user.id })
+			.orderBy("c.id", "DESC")
 			.offset(page * size)
 			.limit(size)
 			.getManyAndCount();

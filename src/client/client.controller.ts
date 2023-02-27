@@ -28,8 +28,12 @@ export class ClientController {
 	}
 
 	@Get()
-	findAll(@Query("page") page: number, @Query("size") size: number) {
-		return this.clientService.findAll(page, size);
+	findAll(
+		@Query("page") page: number,
+		@Query("size") size: number,
+		@AuthUser() user: User,
+	) {
+		return this.clientService.findAll(user, page, size);
 	}
 
 	@Get(":id")
