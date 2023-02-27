@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
 import * as bcrypt from "bcrypt";
+import { UserCredential } from "./user-credential.entity";
 
 @Entity()
 export class User {
@@ -14,6 +15,9 @@ export class User {
 
 	@Column()
 	password: string;
+
+	@ManyToOne(() => UserCredential)
+	credential: UserCredential;
 
 	async verifyPassword(password: string) {
 		return await bcrypt.compare(password, this.password);
