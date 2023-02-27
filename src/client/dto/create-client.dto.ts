@@ -2,6 +2,7 @@ import { Client } from "./../entities/client.entity";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty } from "class-validator";
 import { IsCPF } from "brazilian-class-validator";
+import { User } from "src/user";
 
 export class CreateClientDto {
 	@IsNotEmpty()
@@ -17,11 +18,12 @@ export class CreateClientDto {
 	@ApiProperty()
 	birthDate: Date;
 
-	create() {
+	create(user: User) {
 		const client = new Client();
 		client.name = this.name;
 		client.cpf = this.cpf;
 		client.birthDate = this.birthDate;
+		client.createdBy = user;
 		return client;
 	}
 }

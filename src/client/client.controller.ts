@@ -10,7 +10,8 @@ import {
 	UseGuards,
 } from "@nestjs/common";
 import { ApiBearerAuth } from "@nestjs/swagger";
-import { JwtAuthenticated } from "../auth";
+import { User } from "src/user";
+import { AuthUser, JwtAuthenticated } from "../auth";
 import { ClientService } from "./client.service";
 import { CreateClientDto } from "./dto/create-client.dto";
 import { UpdateClientDto } from "./dto/update-client.dto";
@@ -22,8 +23,8 @@ export class ClientController {
 	constructor(private readonly clientService: ClientService) {}
 
 	@Post()
-	create(@Body() createClientDto: CreateClientDto) {
-		return this.clientService.create(createClientDto);
+	create(@Body() createClientDto: CreateClientDto, @AuthUser() user: User) {
+		return this.clientService.create(createClientDto, user);
 	}
 
 	@Get()

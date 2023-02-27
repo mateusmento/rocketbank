@@ -18,4 +18,12 @@ export class User {
 	async verifyPassword(password: string) {
 		return await bcrypt.compare(password, this.password);
 	}
+
+	static of(partial: Partial<User>) {
+		const user = new User();
+		user.id = partial.id;
+		user.name = partial.name;
+		user.email = partial.email;
+		return user;
+	}
 }

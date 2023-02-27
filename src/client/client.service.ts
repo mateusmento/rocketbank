@@ -4,6 +4,7 @@ import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreateClientDto } from "./dto/create-client.dto";
 import { UpdateClientDto } from "./dto/update-client.dto";
 import { Client } from "./entities/client.entity";
+import { User } from "src/user";
 
 @Injectable()
 export class ClientService {
@@ -12,8 +13,8 @@ export class ClientService {
 		private readonly repo: Repository<Client>,
 	) {}
 
-	async create(createClientDto: CreateClientDto) {
-		return this.repo.save(createClientDto.create());
+	async create(createClientDto: CreateClientDto, user: User) {
+		return this.repo.save(createClientDto.create(user));
 	}
 
 	async findAll(page: number, size: number) {
