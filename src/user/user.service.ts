@@ -23,4 +23,12 @@ export class UserService {
 			.where("user.email = :email", { email })
 			.getOne();
 	}
+
+	findByEmailWithCredential(email: string) {
+		return this.repo
+			.createQueryBuilder("user")
+			.leftJoinAndSelect("user.credential", "credential")
+			.where("user.email = :email", { email })
+			.getOne();
+	}
 }
