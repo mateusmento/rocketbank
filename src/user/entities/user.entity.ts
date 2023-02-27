@@ -13,9 +13,6 @@ export class User {
 	@Column({ unique: true })
 	email: string;
 
-	@Column()
-	password: string;
-
 	@ManyToOne(() => UserCredential, { cascade: ["insert"] })
 	credential: UserCredential;
 
